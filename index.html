@@ -683,9 +683,10 @@
 
         const button = document.createElement("button");
         const img = document.createElement("img");
-        img.src = image.url;
+        img.src = image.previewUrl || image.url;
         img.alt = image.name;
         img.loading = "lazy";
+        img.decoding = "async";
         button.appendChild(img);
 
         button.addEventListener("click", () => openLightbox(index));
@@ -800,6 +801,7 @@
               section.images.push({
                 file: null,
                 url: image.src,
+                previewUrl: image.preview || null,
                 name: image.name || "Photo",
                 path: image.path || image.src,
                 lastModified: 0,
@@ -831,6 +833,7 @@
           section.images.push({
             file,
             url,
+            previewUrl: url,
             name: file.name,
             path,
             lastModified: file.lastModified,

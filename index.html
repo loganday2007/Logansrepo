@@ -29,9 +29,9 @@
         margin: 0;
         font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
         color: #ffffff;
-        background: radial-gradient(circle at 20% 20%, #3a3a3a, transparent 55%),
-          radial-gradient(circle at 80% 0%, #1a1a1a, transparent 50%),
-          linear-gradient(180deg, #0f0f0f 0%, #050505 100%);
+        background: radial-gradient(circle at 15% 15%, #2a2a2a, transparent 45%),
+          radial-gradient(circle at 80% 0%, #1a1a1a, transparent 45%),
+          linear-gradient(180deg, #1c1c1c 0%, #0a0a0a 100%);
         min-height: 100vh;
       }
 
@@ -39,9 +39,9 @@
         content: "";
         position: fixed;
         inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
         pointer-events: none;
-        mix-blend-mode: multiply;
+        mix-blend-mode: soft-light;
       }
 
       header {
@@ -256,6 +256,9 @@
         background: rgba(10, 10, 10, 0.7);
         color: rgba(255, 255, 255, 0.85);
         text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         cursor: pointer;
         transition: transform 0.2s ease, border-color 0.2s ease;
       }
@@ -269,6 +272,18 @@
         border-color: #ffffff;
         color: #ffffff;
         background: rgba(255, 255, 255, 0.08);
+      }
+
+      .section-tab span {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+        letter-spacing: 0.3px;
+      }
+
+      .section-tab span:first-child {
+        color: inherit;
+        font-size: 14px;
+        font-weight: 500;
       }
 
       @media (max-width: 900px) {
@@ -386,12 +401,27 @@
         transform: translateY(12px);
         opacity: 0;
         animation: fadeUp 0.6s ease forwards;
+        position: relative;
       }
 
       .item img {
         display: block;
         width: 100%;
         height: auto;
+      }
+
+      .item.loading::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.08) 45%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.6s ease-in-out infinite;
       }
 
       .item button {
@@ -478,6 +508,15 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
         }
       }
 
@@ -733,7 +772,7 @@
 
       const createCard = (image, index) => {
         const figure = document.createElement("figure");
-        figure.className = "item";
+        figure.className = "item loading";
         figure.style.animationDelay = `${Math.min(index * 40, 400)}ms`;
 
         const button = document.createElement("button");
@@ -750,6 +789,8 @@
         button.appendChild(img);
 
         button.addEventListener("click", () => openLightbox(index));
+        img.addEventListener("load", () => figure.classList.remove("loading"));
+        img.addEventListener("error", () => figure.classList.remove("loading"));
 
         figure.appendChild(button);
         return figure;
@@ -825,15 +866,27 @@
         const allButton = document.createElement("button");
         allButton.type = "button";
         allButton.className = `section-tab${current === "__all__" ? " active" : ""}`;
-        allButton.textContent = "All Sections";
         allButton.dataset.value = "__all__";
+        const totalCount = state.images.length;
+        const allLabel = document.createElement("span");
+        allLabel.textContent = "All Sections";
+        const allCount = document.createElement("span");
+        allCount.textContent = String(totalCount);
+        allButton.appendChild(allLabel);
+        allButton.appendChild(allCount);
         sectionTabs.appendChild(allButton);
 
         state.sectionOrder.forEach((name) => {
           const button = document.createElement("button");
           button.type = "button";
           button.className = `section-tab${current === name ? " active" : ""}`;
-          button.textContent = name;
+          const label = document.createElement("span");
+          label.textContent = name;
+          const count = document.createElement("span");
+          const section = state.sections.get(name);
+          count.textContent = section ? String(section.images.length) : "0";
+          button.appendChild(label);
+          button.appendChild(count);
           button.dataset.value = name;
           sectionTabs.appendChild(button);
         });

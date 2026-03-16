@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logan Day Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f7f4ef;
+        --ink: #1f1f1f;
+        --muted: #6b6b6b;
+        --accent: #c77d4a;
+        --accent-dark: #9b5f34;
+        --edge: #ded8cf;
+        --shadow: 0 20px 45px rgba(17, 17, 17, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        color: #ffffff;
+        background: radial-gradient(circle at 20% 20%, #3a3a3a, transparent 55%),
+          radial-gradient(circle at 80% 0%, #1a1a1a, transparent 50%),
+          linear-gradient(180deg, #0f0f0f 0%, #050505 100%);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+        pointer-events: none;
+        mix-blend-mode: multiply;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 10, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-family: "Playfair Display", "Times New Roman", serif;
+        font-size: 22px;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .button {
+        border: 1px solid #ffffff;
+        background: transparent;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .button.primary {
+        background: #ffffff;
+        color: #0f0f0f;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .admin-link {
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: underline;
+        color: #ffffff;
+        padding: 6px 0;
+      }
+
+      .subtitle {
+        margin: 0 0 12px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 80px;
+      }
+
+      .hero {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        align-items: center;
+        margin-bottom: 40px;
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", "Times New Roman", serif;
+        font-size: clamp(32px, 4vw, 56px);
+        margin: 0 0 16px;
+      }
+
+      .hero p {
+        margin: 0 0 20px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .hero-card {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        padding: 24px;
+        background: rgba(10, 10, 10, 0.65);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card h3 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+
+      .hero-card ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .builder {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin-bottom: 36px;
+      }
+
+      .builder-card {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 24px;
+        background: rgba(10, 10, 10, 0.7);
+        box-shadow: var(--shadow);
+      }
+
+      .builder-card h2,
+      .builder-card h3 {
+        margin: 0 0 12px;
+        font-family: "Playfair Display", "Times New Roman", serif;
+      }
+
+      .builder-card p {
+        margin: 0 0 16px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .builder-form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      .field input {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 14px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+      }
+
+      .field select {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 14px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+      }
+
+      .builder-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .builder-hint {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 12px;
+      }
+
+      .section-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .section-item {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 12px 14px;
+        background: rgba(10, 10, 10, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .section-meta {
+        display: grid;
+        gap: 4px;
+      }
+
+      .section-title {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .section-subtitle {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .section-empty {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+      }
+
+      .toolbar-left {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+        background: rgba(10, 10, 10, 0.65);
+      }
+
+      .gallery {
+        display: grid;
+        gap: 36px;
+      }
+
+      .gallery-section {
+        display: grid;
+        gap: 16px;
+      }
+
+      .gallery-grid {
+        column-count: 4;
+        column-gap: 24px;
+      }
+
+      @media (max-width: 1100px) {
+        .gallery-grid {
+          column-count: 3;
+        }
+      }
+
+      @media (max-width: 800px) {
+        .gallery-grid {
+          column-count: 2;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .gallery-grid {
+          column-count: 1;
+        }
+      }
+
+      .item {
+        break-inside: avoid;
+        margin-bottom: 24px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #0b0b0b;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 0 14px 30px rgba(31, 31, 31, 0.08);
+        transform: translateY(12px);
+        opacity: 0;
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      .item img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .item button {
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: zoom-in;
+      }
+
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .section-header h3 {
+        margin: 0;
+        font-family: "Playfair Display", "Times New Roman", serif;
+        font-size: 24px;
+      }
+
+      .empty-state {
+        padding: 60px 24px;
+        text-align: center;
+        border: 1px dashed var(--edge);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--muted);
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(12, 12, 12, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+      }
+
+      .lightbox.open {
+        display: flex;
+      }
+
+      .lightbox-inner {
+        max-width: min(90vw, 1100px);
+        max-height: 90vh;
+        display: grid;
+        gap: 12px;
+        color: #f5f5f5;
+      }
+
+      .lightbox img {
+        max-width: 100%;
+        max-height: 70vh;
+        object-fit: contain;
+        border-radius: 16px;
+      }
+
+      .lightbox-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .lightbox-button {
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: transparent;
+        color: #f5f5f5;
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .item {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav">
+        <div class="brand">Logan Day Photography</div>
+        <div class="nav-actions">
+          <button class="button" id="addFolderBtn" data-admin-only>Add Folder</button>
+          <button class="button primary" id="clearBtn" data-admin-only>Clear Gallery</button>
+          <button class="admin-link" id="adminBtn" type="button">Admin Sign In</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>Logan Day Portfolio</h1>
+          <p class="subtitle">Website: Logandayphotography.com Email: Loganday2007@icloud.com</p>
+          <div class="nav-actions" data-admin-only>
+            <button class="button primary" id="selectFolderBtn">Select Folder</button>
+            <button class="button" id="shuffleBtn">Shuffle Layout</button>
+          </div>
+          <div class="builder" data-admin-only>
+            <div class="builder-card">
+              <h2>Portfolio Builder</h2>
+              <div class="builder-form">
+                <label class="field" for="sectionNameInput">
+                  Section name
+                  <input
+                    id="sectionNameInput"
+                    type="text"
+                    placeholder="Portraits, Weddings, Travel"
+                    autocomplete="off"
+                  />
+                </label>
+                <div class="builder-actions">
+                  <button class="button primary" id="addSectionFolderBtn">Add Folder to Section</button>
+                  <button class="button" id="addQuickFolderBtn">Add Folder (Auto Name)</button>
+                </div>
+              </div>
+            </div>
+            <div class="builder-card">
+              <h3>Active Sections</h3>
+              <div class="section-list" id="sectionList">
+                <div class="section-empty">No sections yet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="toolbar">
+        <div class="toolbar-left">
+          <span class="pill" id="countPill">0 photos</span>
+          <span class="pill" id="folderPill">No sections yet</span>
+          <span class="pill" id="skippedPill">0 unsupported files</span>
+        </div>
+        <div class="toolbar-left">
+          <label class="field" for="sectionFilter">
+            View section
+            <select id="sectionFilter">
+              <option value="__all__">All Sections</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <div class="gallery" id="gallery"></div>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-inner">
+        <img id="lightboxImage" alt="" />
+        <div class="lightbox-controls">
+          <button class="lightbox-button" id="prevBtn">Previous</button>
+          <div id="lightboxCaption"></div>
+          <button class="lightbox-button" id="nextBtn">Next</button>
+          <button class="lightbox-button" id="closeBtn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <input
+      type="file"
+      id="folderInput"
+      webkitdirectory
+      multiple
+      hidden
+    />
+
+    <script>
+      const folderInput = document.getElementById("folderInput");
+      const selectFolderBtn = document.getElementById("selectFolderBtn");
+      const addFolderBtn = document.getElementById("addFolderBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const adminBtn = document.getElementById("adminBtn");
+      const sectionNameInput = document.getElementById("sectionNameInput");
+      const addSectionFolderBtn = document.getElementById("addSectionFolderBtn");
+      const addQuickFolderBtn = document.getElementById("addQuickFolderBtn");
+      const sectionList = document.getElementById("sectionList");
+      const sectionFilter = document.getElementById("sectionFilter");
+      const gallery = document.getElementById("gallery");
+      const countPill = document.getElementById("countPill");
+      const folderPill = document.getElementById("folderPill");
+      const skippedPill = document.getElementById("skippedPill");
+      const shuffleBtn = document.getElementById("shuffleBtn");
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const closeBtn = document.getElementById("closeBtn");
+
+      const state = {
+        images: [],
+        sections: new Map(),
+        sectionOrder: [],
+        skipped: 0,
+        currentIndex: 0,
+        pending: {
+          mode: "auto",
+          sectionName: "",
+        },
+        filter: "__all__",
+      };
+
+      const ADMIN_PASSWORD = "Logan#2007";
+      const ADMIN_KEY = "portfolioAdminSignedIn";
+
+      const updateAdminUI = (isAdmin) => {
+        document.querySelectorAll("[data-admin-only]").forEach((element) => {
+          element.hidden = !isAdmin;
+        });
+        adminBtn.textContent = isAdmin ? "Admin Sign Out" : "Admin Sign In";
+      };
+
+      const setAdmin = (isAdmin) => {
+        if (isAdmin) {
+          localStorage.setItem(ADMIN_KEY, "true");
+        } else {
+          localStorage.removeItem(ADMIN_KEY);
+        }
+        updateAdminUI(isAdmin);
+      };
+
+      const getAdmin = () => localStorage.getItem(ADMIN_KEY) === "true";
+
+      const supportsImage = (file) => file.type && file.type.startsWith("image/");
+
+      const formatCount = (count) => `${count} photo${count === 1 ? "" : "s"}`;
+
+      const formatSections = (count) => `${count} section${count === 1 ? "" : "s"}`;
+
+      const sanitizeSectionName = (value) => {
+        const cleaned = value.trim();
+        return cleaned.length ? cleaned : null;
+      };
+
+      const ensureSection = (name) => {
+        if (!state.sections.has(name)) {
+          state.sections.set(name, {
+            name,
+            images: [],
+            folders: new Set(),
+          });
+          state.sectionOrder.push(name);
+        }
+        return state.sections.get(name);
+      };
+
+      const rebuildIndex = () => {
+        state.images = [];
+        let index = 0;
+        state.sectionOrder.forEach((name) => {
+          const section = state.sections.get(name);
+          if (!section) return;
+          section.images.forEach((image) => {
+            image.index = index;
+            state.images.push(image);
+            index += 1;
+          });
+        });
+      };
+
+      const updatePills = () => {
+        countPill.textContent = formatCount(state.images.length);
+        skippedPill.textContent = `${state.skipped} unsupported file${state.skipped === 1 ? "" : "s"}`;
+        if (state.sectionOrder.length === 0) {
+          folderPill.textContent = "No sections yet";
+          return;
+        }
+        folderPill.textContent = formatSections(state.sectionOrder.length);
+      };
+
+      const clearGallery = () => {
+        state.images.forEach((image) => URL.revokeObjectURL(image.url));
+        state.images = [];
+        state.sections.clear();
+        state.sectionOrder = [];
+        state.skipped = 0;
+        gallery.innerHTML = "";
+        updatePills();
+        renderSectionList();
+      };
+
+      const createCard = (image, index) => {
+        const figure = document.createElement("figure");
+        figure.className = "item";
+        figure.style.animationDelay = `${Math.min(index * 40, 400)}ms`;
+
+        const button = document.createElement("button");
+        const img = document.createElement("img");
+        img.src = image.url;
+        img.alt = image.name;
+        img.loading = "lazy";
+        button.appendChild(img);
+
+        button.addEventListener("click", () => openLightbox(index));
+
+        figure.appendChild(button);
+        return figure;
+      };
+
+      const renderGallery = () => {
+        gallery.innerHTML = "";
+        rebuildIndex();
+        const fragment = document.createDocumentFragment();
+        state.sectionOrder.forEach((name) => {
+          if (state.filter !== "__all__" && state.filter !== name) return;
+          const section = state.sections.get(name);
+          if (!section || !section.images.length) return;
+
+          const sectionEl = document.createElement("section");
+          sectionEl.className = "gallery-section";
+
+          const header = document.createElement("div");
+          header.className = "section-header";
+          header.innerHTML = `<div><h3>${section.name}</h3><div class="section-subtitle">${formatCount(section.images.length)}  |  ${section.folders.size} folder${section.folders.size === 1 ? "" : "s"}</div></div>`;
+
+          const grid = document.createElement("div");
+          grid.className = "gallery-grid";
+          section.images.forEach((image) => {
+            grid.appendChild(createCard(image, image.index));
+          });
+
+          sectionEl.appendChild(header);
+          sectionEl.appendChild(grid);
+          fragment.appendChild(sectionEl);
+        });
+
+        gallery.appendChild(fragment);
+        updatePills();
+        renderSectionList();
+        renderSectionFilter();
+      };
+
+      const renderSectionList = () => {
+        sectionList.innerHTML = "";
+        if (!state.sectionOrder.length) {
+          sectionList.innerHTML = '<div class="section-empty">No sections yet.</div>';
+          renderSectionFilter();
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        state.sectionOrder.forEach((name) => {
+          const section = state.sections.get(name);
+          if (!section) return;
+          const item = document.createElement("div");
+          item.className = "section-item";
+          item.innerHTML = `
+            <div class="section-meta">
+              <div class="section-title">${section.name}</div>
+              <div class="section-subtitle">${formatCount(section.images.length)}  |  ${section.folders.size} folder${section.folders.size === 1 ? "" : "s"}</div>
+            </div>
+            <button class="button" data-remove="${section.name}" data-admin-only>Remove</button>
+          `;
+          fragment.appendChild(item);
+        });
+
+        sectionList.appendChild(fragment);
+        updateAdminUI(getAdmin());
+      };
+
+      const renderSectionFilter = () => {
+        if (!sectionFilter) return;
+        const current = state.filter;
+        sectionFilter.innerHTML = '<option value="__all__">All Sections</option>';
+        state.sectionOrder.forEach((name) => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          sectionFilter.appendChild(option);
+        });
+        if (state.sectionOrder.includes(current) || current === "__all__") {
+          sectionFilter.value = current;
+        } else {
+          sectionFilter.value = "__all__";
+          state.filter = "__all__";
+        }
+      };
+
+      const loadGalleryFromJson = async () => {
+        try {
+          const response = await fetch("gallery.json", { cache: "no-store" });
+          if (!response.ok) return;
+          const data = await response.json();
+          if (!data || !Array.isArray(data.sections)) return;
+
+          state.sections.clear();
+          state.sectionOrder = [];
+
+          data.sections.forEach((sectionData) => {
+            const name = sectionData.name || "Untitled";
+            const section = ensureSection(name);
+            section.images = [];
+            section.folders = new Set(sectionData.folders || []);
+
+            (sectionData.images || []).forEach((image) => {
+              section.images.push({
+                file: null,
+                url: image.src,
+                name: image.name || "Photo",
+                path: image.path || image.src,
+                lastModified: 0,
+                section: name,
+                index: 0,
+              });
+            });
+          });
+
+          renderGallery();
+        } catch (error) {
+          // Ignore missing gallery.json on first load.
+        }
+      };
+
+      const addFilesToSection = (files, sectionName) => {
+        const section = ensureSection(sectionName);
+        const incoming = Array.from(files);
+
+        incoming.forEach((file) => {
+          if (!supportsImage(file)) {
+            state.skipped += 1;
+            return;
+          }
+          const url = URL.createObjectURL(file);
+          const path = file.webkitRelativePath || file.name;
+          const folderName = file.webkitRelativePath ? file.webkitRelativePath.split("/")[0] : "Local";
+          if (folderName) section.folders.add(folderName);
+          section.images.push({
+            file,
+            url,
+            name: file.name,
+            path,
+            lastModified: file.lastModified,
+            section: sectionName,
+            index: 0,
+          });
+        });
+      };
+
+      const addFiles = (files, mode, sectionName) => {
+        const incoming = Array.from(files);
+        if (!incoming.length) return;
+
+        if (mode === "named") {
+          addFilesToSection(incoming, sectionName);
+          renderGallery();
+          return;
+        }
+
+        const grouped = new Map();
+        incoming.forEach((file) => {
+          const folderName = file.webkitRelativePath ? file.webkitRelativePath.split("/")[0] : "Local";
+          const groupName = folderName || "Untitled";
+          if (!grouped.has(groupName)) {
+            grouped.set(groupName, []);
+          }
+          grouped.get(groupName).push(file);
+        });
+
+        grouped.forEach((groupFiles, name) => {
+          addFilesToSection(groupFiles, name);
+        });
+        renderGallery();
+      };
+
+      const openLightbox = (index) => {
+        if (!state.images.length) return;
+        state.currentIndex = index;
+        const image = state.images[index];
+        lightboxImage.src = image.url;
+        lightboxCaption.textContent = `${image.name} · ${image.path}`;
+        lightbox.classList.add("open");
+      };
+
+      const changeLightbox = (direction) => {
+        if (!state.images.length) return;
+        state.currentIndex = (state.currentIndex + direction + state.images.length) % state.images.length;
+        const image = state.images[state.currentIndex];
+        lightboxImage.src = image.url;
+        lightboxCaption.textContent = `${image.name} · ${image.path}`;
+      };
+
+      const requestFolder = (mode) => {
+        state.pending.mode = mode;
+        state.pending.sectionName = sanitizeSectionName(sectionNameInput.value || "") || "";
+        if (mode === "named" && !state.pending.sectionName) {
+          alert("Add a section name first.");
+          return;
+        }
+        folderInput.click();
+      };
+
+      selectFolderBtn.addEventListener("click", () => {
+        const hasName = sanitizeSectionName(sectionNameInput.value || "");
+        requestFolder(hasName ? "named" : "auto");
+      });
+      addFolderBtn.addEventListener("click", () => requestFolder("auto"));
+      addSectionFolderBtn.addEventListener("click", () => requestFolder("named"));
+      addQuickFolderBtn.addEventListener("click", () => requestFolder("auto"));
+
+      folderInput.addEventListener("change", (event) => {
+        addFiles(event.target.files, state.pending.mode, state.pending.sectionName);
+        folderInput.value = "";
+        state.pending.mode = "auto";
+        state.pending.sectionName = "";
+      });
+
+      clearBtn.addEventListener("click", clearGallery);
+
+      shuffleBtn.addEventListener("click", () => {
+        state.sectionOrder.forEach((name) => {
+          const section = state.sections.get(name);
+          if (!section) return;
+          for (let i = section.images.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [section.images[i], section.images[j]] = [section.images[j], section.images[i]];
+          }
+        });
+        renderGallery();
+      });
+
+      sectionFilter.addEventListener("change", (event) => {
+        const value = event.target.value;
+        state.filter = value;
+        renderGallery();
+      });
+
+      sectionList.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const name = target.dataset.remove;
+        if (!name) return;
+        const section = state.sections.get(name);
+        if (section) {
+          section.images.forEach((image) => URL.revokeObjectURL(image.url));
+          state.sections.delete(name);
+          state.sectionOrder = state.sectionOrder.filter((entry) => entry !== name);
+          renderGallery();
+        }
+      });
+
+      adminBtn.addEventListener("click", () => {
+        if (getAdmin()) {
+          setAdmin(false);
+          return;
+        }
+        const entered = window.prompt("Admin password:");
+        if (entered === ADMIN_PASSWORD) {
+          setAdmin(true);
+          return;
+        }
+        alert("Incorrect password.");
+      });
+
+      prevBtn.addEventListener("click", () => changeLightbox(-1));
+      nextBtn.addEventListener("click", () => changeLightbox(1));
+      closeBtn.addEventListener("click", () => lightbox.classList.remove("open"));
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          lightbox.classList.remove("open");
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (!lightbox.classList.contains("open")) return;
+        if (event.key === "Escape") lightbox.classList.remove("open");
+        if (event.key === "ArrowLeft") changeLightbox(-1);
+        if (event.key === "ArrowRight") changeLightbox(1);
+      });
+
+      updateAdminUI(getAdmin());
+      updatePills();
+      renderSectionList();
+      loadGalleryFromJson();
+    </script>
+  </body>
+</html>

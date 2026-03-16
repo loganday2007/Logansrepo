@@ -235,6 +235,53 @@
         margin-top: 12px;
       }
 
+      .gallery-layout {
+        display: grid;
+        grid-template-columns: minmax(140px, 200px) 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .section-tabs {
+        position: sticky;
+        top: 96px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .section-tab {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: rgba(10, 10, 10, 0.7);
+        color: rgba(255, 255, 255, 0.85);
+        text-align: left;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .section-tab:hover {
+        transform: translateX(2px);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .section-tab.active {
+        border-color: #ffffff;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      @media (max-width: 900px) {
+        .gallery-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .section-tabs {
+          position: static;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+      }
+
       .section-list {
         display: grid;
         gap: 12px;
@@ -297,7 +344,7 @@
 
       .gallery {
         display: grid;
-        gap: 36px;
+        gap: 16px;
       }
 
       .gallery-section {
@@ -307,7 +354,7 @@
 
       .gallery-grid {
         column-count: 4;
-        column-gap: 24px;
+        column-gap: 12px;
       }
 
       @media (max-width: 1100px) {
@@ -330,7 +377,7 @@
 
       .item {
         break-inside: avoid;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
         border-radius: 18px;
         overflow: hidden;
         background: #0b0b0b;
@@ -496,22 +543,16 @@
 
       <section class="toolbar">
         <div class="toolbar-left">
-          <span class="pill" id="countPill">0 photos</span>
-          <span class="pill" id="folderPill">No sections yet</span>
-          <span class="pill" id="skippedPill">0 unsupported files</span>
         </div>
         <div class="toolbar-left">
-          <label class="field" for="sectionFilter">
-            View section
-            <select id="sectionFilter">
-              <option value="__all__">All Sections</option>
-            </select>
-          </label>
         </div>
       </section>
 
       <section>
-        <div class="gallery" id="gallery"></div>
+        <div class="gallery-layout">
+          <nav class="section-tabs" id="sectionTabs"></nav>
+          <div class="gallery" id="gallery"></div>
+        </div>
       </section>
     </main>
 
@@ -545,11 +586,8 @@
       const addSectionFolderBtn = document.getElementById("addSectionFolderBtn");
       const addQuickFolderBtn = document.getElementById("addQuickFolderBtn");
       const sectionList = document.getElementById("sectionList");
-      const sectionFilter = document.getElementById("sectionFilter");
+      const sectionTabs = document.getElementById("sectionTabs");
       const gallery = document.getElementById("gallery");
-      const countPill = document.getElementById("countPill");
-      const folderPill = document.getElementById("folderPill");
-      const skippedPill = document.getElementById("skippedPill");
       const shuffleBtn = document.getElementById("shuffleBtn");
 
       const lightbox = document.getElementById("lightbox");
@@ -575,6 +613,8 @@
       const ADMIN_PASSWORD = "Logan#2007";
       const ADMIN_KEY = "portfolioAdminSignedIn";
 
+      const formatCount = (count) => `${count} photo${count === 1 ? "" : "s"}`;
+
       const updateAdminUI = (isAdmin) => {
         document.querySelectorAll("[data-admin-only]").forEach((element) => {
           element.hidden = !isAdmin;
@@ -594,10 +634,6 @@
       const getAdmin = () => localStorage.getItem(ADMIN_KEY) === "true";
 
       const supportsImage = (file) => file.type && file.type.startsWith("image/");
-
-      const formatCount = (count) => `${count} photo${count === 1 ? "" : "s"}`;
-
-      const formatSections = (count) => `${count} section${count === 1 ? "" : "s"}`;
 
       const sanitizeSectionName = (value) => {
         const cleaned = value.trim();
@@ -630,16 +666,6 @@
         });
       };
 
-      const updatePills = () => {
-        countPill.textContent = formatCount(state.images.length);
-        skippedPill.textContent = `${state.skipped} unsupported file${state.skipped === 1 ? "" : "s"}`;
-        if (state.sectionOrder.length === 0) {
-          folderPill.textContent = "No sections yet";
-          return;
-        }
-        folderPill.textContent = formatSections(state.sectionOrder.length);
-      };
-
       const clearGallery = () => {
         state.images.forEach((image) => URL.revokeObjectURL(image.url));
         state.images = [];
@@ -647,7 +673,6 @@
         state.sectionOrder = [];
         state.skipped = 0;
         gallery.innerHTML = "";
-        updatePills();
         renderSectionList();
       };
 
@@ -697,7 +722,6 @@
         });
 
         gallery.appendChild(fragment);
-        updatePills();
         renderSectionList();
         renderSectionFilter();
       };
@@ -731,19 +755,27 @@
       };
 
       const renderSectionFilter = () => {
-        if (!sectionFilter) return;
+        if (!sectionTabs) return;
         const current = state.filter;
-        sectionFilter.innerHTML = '<option value="__all__">All Sections</option>';
+        sectionTabs.innerHTML = "";
+
+        const allButton = document.createElement("button");
+        allButton.type = "button";
+        allButton.className = `section-tab${current === "__all__" ? " active" : ""}`;
+        allButton.textContent = "All Sections";
+        allButton.dataset.value = "__all__";
+        sectionTabs.appendChild(allButton);
+
         state.sectionOrder.forEach((name) => {
-          const option = document.createElement("option");
-          option.value = name;
-          option.textContent = name;
-          sectionFilter.appendChild(option);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `section-tab${current === name ? " active" : ""}`;
+          button.textContent = name;
+          button.dataset.value = name;
+          sectionTabs.appendChild(button);
         });
-        if (state.sectionOrder.includes(current) || current === "__all__") {
-          sectionFilter.value = current;
-        } else {
-          sectionFilter.value = "__all__";
+
+        if (!(state.sectionOrder.includes(current) || current === "__all__")) {
           state.filter = "__all__";
         }
       };
@@ -843,10 +875,20 @@
         lightbox.classList.add("open");
       };
 
+      const getVisibleImages = () => {
+        if (state.filter === "__all__") return state.images;
+        return state.images.filter((image) => image.section === state.filter);
+      };
+
       const changeLightbox = (direction) => {
-        if (!state.images.length) return;
-        state.currentIndex = (state.currentIndex + direction + state.images.length) % state.images.length;
-        const image = state.images[state.currentIndex];
+        const visibleImages = getVisibleImages();
+        if (!visibleImages.length) return;
+        const currentImage = state.images[state.currentIndex];
+        let visibleIndex = visibleImages.findIndex((image) => image === currentImage);
+        if (visibleIndex === -1) visibleIndex = 0;
+        visibleIndex = (visibleIndex + direction + visibleImages.length) % visibleImages.length;
+        const image = visibleImages[visibleIndex];
+        state.currentIndex = image.index;
         lightboxImage.src = image.url;
         lightboxCaption.textContent = `${image.name} · ${image.path}`;
       };
@@ -890,8 +932,11 @@
         renderGallery();
       });
 
-      sectionFilter.addEventListener("change", (event) => {
-        const value = event.target.value;
+      sectionTabs.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const value = target.dataset.value;
+        if (!value) return;
         state.filter = value;
         renderGallery();
       });
@@ -941,7 +986,6 @@
       });
 
       updateAdminUI(getAdmin());
-      updatePills();
       renderSectionList();
       loadGalleryFromJson();
     </script>

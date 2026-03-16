@@ -8,7 +8,6 @@ Structure:
       image-2.jpg
 
 Each top-level folder becomes a section in the site.
-After updating photos, run:
-  node scripts/build-gallery.js
 
-Then commit and push to Git so Netlify redeploys.
+To generate gallery.json without Node, run:
+  /Users/loganday5/Desktop/Porfolio Builder/scripts/build-gallery.sh

@@ -20,8 +20,8 @@ image_exts = {
 
 preview_exts = {".jpg", ".jpeg", ".png"}
 
-max_long_edge = 2000
-jpeg_quality = 80
+preview_sizes = [800, 1400, 2000]
+preview_quality = 80
 
 if not gallery_dir.exists():
     raise SystemExit("gallery/ folder not found.")
@@ -49,30 +49,38 @@ for entry in sorted(gallery_dir.iterdir()):
                 folders.add(relative_dir.parts[0])
 
             preview_path = None
+            srcset_entries = []
+
             if ext in preview_exts:
-                candidate = preview_root / relative_path
-                candidate.parent.mkdir(parents=True, exist_ok=True)
-
                 source_mtime = file_path.stat().st_mtime
-                needs_preview = not candidate.exists() or candidate.stat().st_mtime < source_mtime
+                for size in preview_sizes:
+                    target_path = preview_root / str(size) / relative_path
+                    target_path.parent.mkdir(parents=True, exist_ok=True)
 
-                if needs_preview:
-                    cmd = [
-                        "/usr/bin/sips",
-                        "-Z",
-                        str(max_long_edge),
-                    ]
-                    if ext in {".jpg", ".jpeg"}:
-                        cmd += ["-s", "formatOptions", str(jpeg_quality)]
-                    cmd += ["--out", str(candidate), str(file_path)]
-                    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    needs_preview = not target_path.exists() or target_path.stat().st_mtime < source_mtime
 
-                if candidate.exists():
-                    preview_path = str(Path("gallery_previews") / relative_path).replace(os.sep, "/")
+                    if needs_preview:
+                        cmd = [
+                            "/usr/bin/sips",
+                            "-Z",
+                            str(size),
+                        ]
+                        if ext in {".jpg", ".jpeg"}:
+                            cmd += ["-s", "formatOptions", str(preview_quality)]
+                        cmd += ["--out", str(target_path), str(file_path)]
+                        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+                    if target_path.exists():
+                        src = str(Path("gallery_previews") / str(size) / relative_path).replace(os.sep, "/")
+                        srcset_entries.append({"src": src, "w": size})
+
+                if srcset_entries:
+                    preview_path = srcset_entries[-1]["src"]
 
             images.append({
                 "src": str(Path("gallery") / relative_path).replace(os.sep, "/"),
                 "preview": preview_path,
+                "srcset": srcset_entries,
                 "name": fname,
                 "path": str(relative_path).replace(os.sep, "/"),
             })

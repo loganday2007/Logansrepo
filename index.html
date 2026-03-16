@@ -608,6 +608,7 @@
           sectionName: "",
         },
         filter: "__all__",
+        hasUserFilter: false,
       };
 
       const ADMIN_PASSWORD = "Logan#2007";
@@ -652,6 +653,12 @@
         return state.sections.get(name);
       };
 
+      const ensureDefaultFilter = () => {
+        if (!state.hasUserFilter && state.sectionOrder.length) {
+          state.filter = state.sectionOrder[0];
+        }
+      };
+
       const rebuildIndex = () => {
         state.images = [];
         let index = 0;
@@ -676,6 +683,54 @@
         renderSectionList();
       };
 
+      const getSrcsetString = (image) => {
+        if (!image.srcset || !image.srcset.length) return "";
+        return image.srcset
+          .filter((entry) => entry && entry.src && entry.w)
+          .map((entry) => `${entry.src} ${entry.w}w`)
+          .join(", ");
+      };
+
+      const imageSizes =
+        "(max-width: 560px) 100vw, (max-width: 800px) 50vw, (max-width: 1100px) 33vw, 25vw";
+
+      const lazyObserver =
+        "IntersectionObserver" in window
+          ? new IntersectionObserver(
+              (entries, observer) => {
+                entries.forEach((entry) => {
+                  if (!entry.isIntersecting) return;
+                  const img = entry.target;
+                  const dataSrc = img.dataset.src;
+                  if (dataSrc) {
+                    img.src = dataSrc;
+                    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+                    if (img.dataset.sizes) img.sizes = img.dataset.sizes;
+                    img.dataset.loaded = "true";
+                  }
+                  observer.unobserve(img);
+                });
+              },
+              { rootMargin: "200px 0px", threshold: 0.01 }
+            )
+          : null;
+
+      const observeImages = () => {
+        document.querySelectorAll("img[data-src]:not([data-loaded])").forEach((img) => {
+          if (!lazyObserver) {
+            const dataSrc = img.dataset.src;
+            if (dataSrc) {
+              img.src = dataSrc;
+              if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+              if (img.dataset.sizes) img.sizes = img.dataset.sizes;
+              img.dataset.loaded = "true";
+            }
+            return;
+          }
+          lazyObserver.observe(img);
+        });
+      };
+
       const createCard = (image, index) => {
         const figure = document.createElement("figure");
         figure.className = "item";
@@ -683,7 +738,12 @@
 
         const button = document.createElement("button");
         const img = document.createElement("img");
-        img.src = image.previewUrl || image.url;
+        img.src =
+          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+        img.dataset.src = image.previewUrl || image.url;
+        const srcset = getSrcsetString(image);
+        if (srcset) img.dataset.srcset = srcset;
+        img.dataset.sizes = imageSizes;
         img.alt = image.name;
         img.loading = "lazy";
         img.decoding = "async";
@@ -725,6 +785,7 @@
         gallery.appendChild(fragment);
         renderSectionList();
         renderSectionFilter();
+        observeImages();
       };
 
       const renderSectionList = () => {
@@ -757,6 +818,7 @@
 
       const renderSectionFilter = () => {
         if (!sectionTabs) return;
+        ensureDefaultFilter();
         const current = state.filter;
         sectionTabs.innerHTML = "";
 
@@ -802,6 +864,7 @@
                 file: null,
                 url: image.src,
                 previewUrl: image.preview || null,
+                srcset: Array.isArray(image.srcset) ? image.srcset : [],
                 name: image.name || "Photo",
                 path: image.path || image.src,
                 lastModified: 0,
@@ -811,6 +874,7 @@
             });
           });
 
+          ensureDefaultFilter();
           renderGallery();
         } catch (error) {
           // Ignore missing gallery.json on first load.
@@ -834,6 +898,7 @@
             file,
             url,
             previewUrl: url,
+            srcset: [],
             name: file.name,
             path,
             lastModified: file.lastModified,
@@ -940,6 +1005,7 @@
         if (!(target instanceof HTMLElement)) return;
         const value = target.dataset.value;
         if (!value) return;
+        state.hasUserFilter = true;
         state.filter = value;
         renderGallery();
       });

@@ -28,10 +28,10 @@
       body {
         margin: 0;
         font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-        color: #ffffff;
-        background: radial-gradient(circle at 15% 15%, #2a2a2a, transparent 45%),
-          radial-gradient(circle at 80% 0%, #1a1a1a, transparent 45%),
-          linear-gradient(180deg, #1c1c1c 0%, #0a0a0a 100%);
+        color: #121212;
+        background: radial-gradient(circle at 10% 10%, #ffffff, transparent 40%),
+          radial-gradient(circle at 90% 0%, #f6f6f6, transparent 45%),
+          linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
         min-height: 100vh;
       }
 
@@ -39,9 +39,9 @@
         content: "";
         position: fixed;
         inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
         pointer-events: none;
-        mix-blend-mode: soft-light;
+        mix-blend-mode: multiply;
       }
 
       header {
@@ -49,8 +49,8 @@
         top: 0;
         z-index: 20;
         backdrop-filter: blur(10px);
-        background: rgba(10, 10, 10, 0.8);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.16);
       }
 
       .nav {
@@ -74,19 +74,19 @@
       }
 
       .button {
-        border: 1px solid #ffffff;
+        border: 1px solid #111111;
         background: transparent;
         padding: 10px 16px;
         border-radius: 999px;
         font-size: 14px;
-        color: #ffffff;
+        color: #111111;
         cursor: pointer;
         transition: all 0.2s ease;
       }
 
       .button.primary {
-        background: #ffffff;
-        color: #0f0f0f;
+        background: #111111;
+        color: #ffffff;
       }
 
       .button:hover {
@@ -104,13 +104,13 @@
         font-size: 14px;
         cursor: pointer;
         text-decoration: underline;
-        color: #ffffff;
+        color: #111111;
         padding: 6px 0;
       }
 
       .subtitle {
         margin: 0 0 12px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.65);
         font-size: 15px;
         line-height: 1.6;
       }
@@ -137,16 +137,16 @@
 
       .hero p {
         margin: 0 0 20px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.7);
         font-size: 16px;
         line-height: 1.6;
       }
 
       .hero-card {
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 24px;
         padding: 24px;
-        background: rgba(10, 10, 10, 0.65);
+        background: rgba(255, 255, 255, 0.82);
         box-shadow: var(--shadow);
       }
 
@@ -159,7 +159,7 @@
         padding: 0;
         margin: 0;
         list-style: none;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.68);
         font-size: 14px;
         display: grid;
         gap: 10px;
@@ -173,10 +173,10 @@
       }
 
       .builder-card {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 24px;
         padding: 24px;
-        background: rgba(10, 10, 10, 0.7);
+        background: rgba(255, 255, 255, 0.85);
         box-shadow: var(--shadow);
       }
 
@@ -188,7 +188,7 @@
 
       .builder-card p {
         margin: 0 0 16px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.68);
         font-size: 14px;
         line-height: 1.6;
       }
@@ -202,25 +202,25 @@
         display: grid;
         gap: 6px;
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.65);
+        color: rgba(0, 0, 0, 0.66);
       }
 
       .field input {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 12px;
         padding: 10px 14px;
         font-size: 14px;
-        background: rgba(0, 0, 0, 0.5);
-        color: #ffffff;
+        background: #ffffff;
+        color: #111111;
       }
 
       .field select {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 12px;
         padding: 10px 14px;
         font-size: 14px;
-        background: rgba(0, 0, 0, 0.5);
-        color: #ffffff;
+        background: #ffffff;
+        color: #111111;
       }
 
       .builder-actions {
@@ -231,7 +231,7 @@
 
       .builder-hint {
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.6);
         margin-top: 12px;
       }
 
@@ -250,11 +250,11 @@
       }
 
       .section-tab {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.25);
         border-radius: 999px;
         padding: 10px 14px;
-        background: rgba(10, 10, 10, 0.7);
-        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.9);
+        color: #111111;
         text-align: left;
         display: flex;
         align-items: center;
@@ -265,17 +265,21 @@
 
       .section-tab:hover {
         transform: translateX(2px);
-        border-color: rgba(255, 255, 255, 0.5);
+        border-color: rgba(0, 0, 0, 0.55);
       }
 
       .section-tab.active {
-        border-color: #ffffff;
+        border-color: #111111;
         color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
+        background: #111111;
+      }
+
+      .section-tab.active span {
+        color: rgba(255, 255, 255, 0.8);
       }
 
       .section-tab span {
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.58);
         font-size: 12px;
         letter-spacing: 0.3px;
       }
@@ -303,10 +307,10 @@
       }
 
       .section-item {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 16px;
         padding: 12px 14px;
-        background: rgba(10, 10, 10, 0.6);
+        background: rgba(255, 255, 255, 0.84);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -325,12 +329,12 @@
 
       .section-subtitle {
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.62);
       }
 
       .section-empty {
         font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.62);
       }
 
       .toolbar {
@@ -349,12 +353,12 @@
       }
 
       .pill {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
         padding: 8px 14px;
         border-radius: 999px;
         font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(10, 10, 10, 0.65);
+        color: rgba(0, 0, 0, 0.7);
+        background: rgba(255, 255, 255, 0.9);
       }
 
       .gallery {
@@ -411,6 +415,7 @@
         object-fit: contain;
         object-position: center center;
         max-height: none;
+        border: 1px solid #111111;
       }
 
       .item.loading::after {
@@ -419,9 +424,9 @@
         inset: 0;
         background: linear-gradient(
           90deg,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 0.08) 45%,
-          rgba(255, 255, 255, 0) 100%
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.06) 45%,
+          rgba(0, 0, 0, 0) 100%
         );
         background-size: 200% 100%;
         animation: shimmer 1.6s ease-in-out infinite;

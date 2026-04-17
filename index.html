@@ -368,31 +368,31 @@
       }
 
       .gallery-grid {
-        column-count: 4;
-        column-gap: 12px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
       }
 
       @media (max-width: 1100px) {
         .gallery-grid {
-          column-count: 3;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
 
       @media (max-width: 800px) {
         .gallery-grid {
-          column-count: 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
 
       @media (max-width: 560px) {
         .gallery-grid {
-          column-count: 1;
+          grid-template-columns: repeat(1, minmax(0, 1fr));
         }
       }
 
       .item {
-        break-inside: avoid;
-        margin-bottom: 12px;
+        margin-bottom: 0;
         border-radius: 18px;
         overflow: hidden;
         background: #0b0b0b;

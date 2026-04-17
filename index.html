@@ -394,7 +394,7 @@
         break-inside: avoid;
         margin-bottom: 12px;
         border-radius: 0;
-        overflow: hidden;
+        overflow: visible;
         background: transparent;
         border: none;
         box-shadow: 0 14px 30px rgba(31, 31, 31, 0.08);
@@ -408,6 +408,9 @@
         display: block;
         width: 100%;
         height: auto;
+        object-fit: contain;
+        object-position: center center;
+        max-height: none;
       }
 
       .item.loading::after {
@@ -429,6 +432,9 @@
         background: transparent;
         padding: 0;
         width: 100%;
+        display: block;
+        line-height: 0;
+        overflow: visible;
         cursor: zoom-in;
       }
 

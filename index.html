@@ -7,18 +7,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --paper: #f7f4ef;
-        --ink: #1f1f1f;
-        --muted: #6b6b6b;
-        --accent: #c77d4a;
-        --accent-dark: #9b5f34;
-        --edge: #ded8cf;
-        --shadow: 0 20px 45px rgba(17, 17, 17, 0.12);
+        --black: #0a0907;
+        --dark: #111009;
+        --card: #16140f;
+        --border: rgba(255,255,255,0.07);
+        --gold: #c9a84c;
+        --gold-lt: #e2c97e;
+        --cream: #f5efe3;
+        --mist: rgba(245,239,227,0.45);
+        --white: #fdfcf9;
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "Outfit", sans-serif;
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
       }
 
       * {
@@ -27,11 +32,9 @@
 
       body {
         margin: 0;
-        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-        color: #121212;
-        background: radial-gradient(circle at 10% 10%, #ffffff, transparent 40%),
-          radial-gradient(circle at 90% 0%, #f6f6f6, transparent 45%),
-          linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+        font-family: var(--sans);
+        color: var(--cream);
+        background: var(--black);
         min-height: 100vh;
       }
 
@@ -39,59 +42,70 @@
         content: "";
         position: fixed;
         inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.018), transparent 45%),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
         pointer-events: none;
-        mix-blend-mode: multiply;
+        mix-blend-mode: soft-light;
+        z-index: -1;
       }
 
       header {
         position: sticky;
         top: 0;
         z-index: 20;
-        backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(14px);
+        background: rgba(10, 9, 7, 0.78);
+        border-bottom: 1px solid var(--border);
       }
 
       .nav {
-        max-width: 1200px;
+        max-width: 1320px;
         margin: 0 auto;
-        padding: 18px 24px;
+        padding: 18px 28px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 24px;
       }
 
       .brand {
-        font-family: "Playfair Display", "Times New Roman", serif;
-        font-size: 22px;
-        letter-spacing: 0.5px;
+        font-family: var(--serif);
+        color: var(--white);
+        font-size: 23px;
+        letter-spacing: 0;
+        white-space: nowrap;
       }
 
       .nav-actions {
         display: flex;
         gap: 10px;
+        align-items: center;
       }
 
       .button {
-        border: 1px solid #111111;
+        border: 1px solid var(--cream);
         background: transparent;
         padding: 10px 16px;
         border-radius: 999px;
+        font-family: var(--sans);
         font-size: 14px;
-        color: #111111;
+        color: var(--cream);
         cursor: pointer;
         transition: all 0.2s ease;
       }
 
       .button.primary {
-        background: #111111;
-        color: #ffffff;
+        background: var(--gold);
+        color: var(--black);
+        border-color: var(--gold);
       }
 
       .button:hover {
         transform: translateY(-1px);
-        box-shadow: var(--shadow);
+        background: var(--gold-lt);
+        border-color: var(--gold-lt);
+        color: var(--black);
       }
 
       [hidden] {
@@ -101,18 +115,35 @@
       .admin-link {
         border: none;
         background: transparent;
+        font-family: var(--sans);
         font-size: 14px;
         cursor: pointer;
         text-decoration: underline;
-        color: #111111;
+        color: var(--mist);
         padding: 6px 0;
       }
 
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        color: var(--white);
+        font-weight: 400;
+      }
+
+      em,
+      .accent {
+        color: var(--gold-lt);
+        font-style: italic;
+      }
+
       .subtitle {
-        margin: 0 0 12px;
-        color: rgba(0, 0, 0, 0.65);
-        font-size: 15px;
-        line-height: 1.6;
+        margin: 0;
+        color: var(--mist);
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.8;
+        max-width: 620px;
       }
 
       main {
@@ -129,24 +160,33 @@
         margin-bottom: 40px;
       }
 
+      .section-subtitle,
+      .field,
+      .section-empty {
+        font-family: var(--sans);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+      }
+
       .hero h1 {
-        font-family: "Playfair Display", "Times New Roman", serif;
         font-size: clamp(32px, 4vw, 56px);
+        line-height: 1.1;
         margin: 0 0 16px;
+        letter-spacing: 0;
       }
 
       .hero p {
         margin: 0 0 20px;
-        color: rgba(0, 0, 0, 0.7);
+        color: var(--mist);
         font-size: 16px;
         line-height: 1.6;
       }
 
       .hero-card {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 24px;
+        border: 1px solid var(--border);
+        border-radius: 2px;
         padding: 24px;
-        background: rgba(255, 255, 255, 0.82);
+        background: var(--card);
         box-shadow: var(--shadow);
       }
 
@@ -159,7 +199,7 @@
         padding: 0;
         margin: 0;
         list-style: none;
-        color: rgba(0, 0, 0, 0.68);
+        color: var(--mist);
         font-size: 14px;
         display: grid;
         gap: 10px;
@@ -170,13 +210,14 @@
         gap: 24px;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         margin-bottom: 36px;
+        margin-top: 36px;
       }
 
       .builder-card {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 24px;
+        border: 1px solid var(--border);
+        border-radius: 2px;
         padding: 24px;
-        background: rgba(255, 255, 255, 0.85);
+        background: var(--card);
         box-shadow: var(--shadow);
       }
 
@@ -188,7 +229,7 @@
 
       .builder-card p {
         margin: 0 0 16px;
-        color: rgba(0, 0, 0, 0.68);
+        color: var(--mist);
         font-size: 14px;
         line-height: 1.6;
       }
@@ -201,26 +242,26 @@
       .field {
         display: grid;
         gap: 6px;
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.66);
+        font-size: 10px;
+        color: var(--mist);
       }
 
       .field input {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 12px;
+        border: 1px solid var(--border);
+        border-radius: 1px;
         padding: 10px 14px;
         font-size: 14px;
-        background: #ffffff;
-        color: #111111;
+        background: var(--dark);
+        color: var(--cream);
       }
 
       .field select {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 12px;
+        border: 1px solid var(--border);
+        border-radius: 1px;
         padding: 10px 14px;
         font-size: 14px;
-        background: #ffffff;
-        color: #111111;
+        background: var(--dark);
+        color: var(--cream);
       }
 
       .builder-actions {
@@ -231,55 +272,59 @@
 
       .builder-hint {
         font-size: 12px;
-        color: rgba(0, 0, 0, 0.6);
+        color: var(--mist);
         margin-top: 12px;
       }
 
       .gallery-layout {
         display: grid;
         grid-template-columns: minmax(140px, 200px) 1fr;
-        gap: 24px;
+        gap: clamp(22px, 3vw, 44px);
         align-items: start;
+        width: min(1320px, calc(100% - 56px));
+        margin: 0 auto;
       }
 
       .section-tabs {
         position: sticky;
         top: 96px;
         display: grid;
-        gap: 10px;
+        gap: 8px;
+        padding-top: 4px;
       }
 
       .section-tab {
-        border: 1px solid rgba(0, 0, 0, 0.25);
-        border-radius: 999px;
-        padding: 10px 14px;
-        background: rgba(255, 255, 255, 0.9);
-        color: #111111;
+        border: 1px solid var(--border);
+        border-radius: 1px;
+        padding: 12px 13px;
+        background: rgba(22,20,15,0.72);
+        color: var(--cream);
         text-align: left;
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
 
       .section-tab:hover {
         transform: translateX(2px);
-        border-color: rgba(0, 0, 0, 0.55);
+        border-color: rgba(201,168,76,0.55);
+        color: var(--gold-lt);
       }
 
       .section-tab.active {
-        border-color: #111111;
-        color: #ffffff;
-        background: #111111;
+        border-color: rgba(201,168,76,0.7);
+        color: var(--white);
+        background: rgba(201,168,76,0.12);
       }
 
       .section-tab.active span {
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--gold-lt);
       }
 
       .section-tab span {
-        color: rgba(0, 0, 0, 0.58);
+        color: var(--mist);
         font-size: 12px;
         letter-spacing: 0.3px;
       }
@@ -307,10 +352,10 @@
       }
 
       .section-item {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 16px;
+        border: 1px solid var(--border);
+        border-radius: 2px;
         padding: 12px 14px;
-        background: rgba(255, 255, 255, 0.84);
+        background: var(--dark);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -328,13 +373,13 @@
       }
 
       .section-subtitle {
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.62);
+        font-size: 10px;
+        color: var(--mist);
       }
 
       .section-empty {
-        font-size: 13px;
-        color: rgba(0, 0, 0, 0.62);
+        font-size: 11px;
+        color: var(--mist);
       }
 
       .toolbar {
@@ -343,7 +388,7 @@
         gap: 12px;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 24px;
+        margin-bottom: 0;
       }
 
       .toolbar-left {
@@ -353,22 +398,24 @@
       }
 
       .pill {
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
         padding: 8px 14px;
-        border-radius: 999px;
+        border-radius: 1px;
         font-size: 13px;
-        color: rgba(0, 0, 0, 0.7);
-        background: rgba(255, 255, 255, 0.9);
+        color: var(--mist);
+        background: var(--card);
       }
 
       .gallery {
         display: grid;
-        gap: 16px;
+        gap: 28px;
       }
 
       .gallery-section {
         display: grid;
         gap: 16px;
+        padding: 34px 0 70px;
+        border-top: 1px solid var(--border);
       }
 
       .gallery-grid {
@@ -397,25 +444,35 @@
       .item {
         break-inside: avoid;
         margin-bottom: 12px;
-        border-radius: 0;
-        overflow: visible;
-        background: transparent;
-        border: none;
-        box-shadow: 0 14px 30px rgba(31, 31, 31, 0.08);
+        border-radius: 2px;
+        overflow: hidden;
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
         transform: translateY(12px);
         opacity: 0;
         animation: fadeUp 0.6s ease forwards;
         position: relative;
+        transition: border-color 0.25s ease, transform 0.25s ease;
+      }
+
+      .item:hover {
+        border-color: rgba(201,168,76,0.68);
       }
 
       .item img {
         display: block;
         width: 100%;
         height: auto;
-        object-fit: contain;
+        object-fit: cover;
         object-position: center center;
         max-height: none;
-        border: 1px solid #111111;
+        border: none;
+        transition: transform 0.6s ease, opacity 0.3s ease;
+      }
+
+      .item:hover img {
+        transform: scale(1.04);
       }
 
       .item.loading::after {
@@ -424,9 +481,9 @@
         inset: 0;
         background: linear-gradient(
           90deg,
-          rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0.06) 45%,
-          rgba(0, 0, 0, 0) 100%
+          rgba(245,239,227,0) 0%,
+          rgba(245,239,227,0.08) 45%,
+          rgba(245,239,227,0) 100%
         );
         background-size: 200% 100%;
         animation: shimmer 1.6s ease-in-out infinite;
@@ -434,13 +491,14 @@
 
       .item button {
         border: none;
-        background: transparent;
+        background: var(--card);
         padding: 0;
         width: 100%;
         display: block;
         line-height: 0;
-        overflow: visible;
+        overflow: hidden;
         cursor: zoom-in;
+        position: relative;
       }
 
 
@@ -449,28 +507,29 @@
         align-items: baseline;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
       }
 
       .section-header h3 {
         margin: 0;
-        font-family: "Playfair Display", "Times New Roman", serif;
-        font-size: 24px;
+        font-family: var(--serif);
+        font-size: clamp(30px, 4vw, 52px);
+        font-weight: 400;
       }
 
       .empty-state {
         padding: 60px 24px;
         text-align: center;
-        border: 1px dashed var(--edge);
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.6);
-        color: var(--muted);
+        border: 1px dashed var(--border);
+        border-radius: 2px;
+        background: var(--card);
+        color: var(--mist);
       }
 
       .lightbox {
         position: fixed;
         inset: 0;
-        background: rgba(12, 12, 12, 0.85);
+        background: rgba(10, 9, 7, 0.93);
         display: none;
         align-items: center;
         justify-content: center;
@@ -486,14 +545,15 @@
         max-height: 90vh;
         display: grid;
         gap: 12px;
-        color: #f5f5f5;
+        color: var(--cream);
       }
 
       .lightbox img {
         max-width: 100%;
         max-height: 70vh;
         object-fit: contain;
-        border-radius: 16px;
+        border-radius: 2px;
+        border: 1px solid var(--border);
       }
 
       .lightbox-controls {
@@ -504,11 +564,11 @@
       }
 
       .lightbox-button {
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(201,168,76,0.5);
         background: transparent;
-        color: #f5f5f5;
-        padding: 8px 14px;
-        border-radius: 999px;
+        color: var(--gold-lt);
+        padding: 10px 14px;
+        border-radius: 1px;
         cursor: pointer;
       }
 
@@ -538,6 +598,7 @@
           opacity: 1;
           transform: none;
         }
+
       }
     </style>
   </head>
@@ -599,7 +660,7 @@
         </div>
       </section>
 
-      <section>
+      <section id="portfolio-gallery">
         <div class="gallery-layout">
           <nav class="section-tabs" id="sectionTabs"></nav>
           <div class="gallery" id="gallery"></div>
